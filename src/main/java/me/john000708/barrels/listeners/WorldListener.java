@@ -19,9 +19,6 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void onFireSpread(BlockBurnEvent e) {
-        //e.getBlock() cannot be null.
-        //if (e.getBlock() == null) return;
-
         String id = BlockStorage.checkID(e.getBlock());
         if (id != null && id.startsWith("BARREL_")) e.setCancelled(true);
     }
