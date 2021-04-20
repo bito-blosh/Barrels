@@ -2,7 +2,6 @@ package me.john000708.barrels.block;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -35,12 +34,10 @@ public class Barrel extends SlimefunItem {
         this.capacity = capacity;
 
         new BarrelsMenuPreset(this, item.getDisplayName());
-        registerBlockHandler(getId(), new BarrelsBlockHandler(this));
     }
 
     @Override
     public void preRegister() {
-
         addItemHandler(
                 new BlockPlaceHandler(false) {
                     @Override
@@ -48,6 +45,7 @@ public class Barrel extends SlimefunItem {
                         BlockStorage.addBlockInfo(e.getBlock() , "owner", e.getPlayer().getUniqueId().toString());
                     }
                 },
+                new BarrelsBlockHandler(this,false, false),
                 new BlockTicker() {
                     @Override
                     public boolean isSynchronized() {
@@ -58,7 +56,7 @@ public class Barrel extends SlimefunItem {
                     public void tick(Block block, SlimefunItem slimefunItem, Config config) {
                         updateBarrel(block);
 
-                        if (Barrels.displayItem() && !block.isEmpty()) {
+                        if (Barrels.isDisplayItemHologram() && !block.isEmpty()) {
                             boolean hasRoom = block.getRelative(BlockFace.UP).isEmpty();
                             DisplayItem.updateDisplayItem(block, getCapacity(block), hasRoom);
                         }
